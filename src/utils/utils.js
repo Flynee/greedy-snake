@@ -6,6 +6,7 @@ import getPointData from './getPointData';
 import resizeCanvas from './resizeCanvas';
 import Snake from '@/utils/Snake';
 import Webgl from '@/utils/Webgl';
+import controlMusic from '@/utils/controlMusic';
 
 export {
   runInterval,
@@ -16,4 +17,5 @@ export {
   resizeCanvas,
   Snake,
   Webgl,
+  controlMusic,
 };
