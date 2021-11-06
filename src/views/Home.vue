@@ -1,6 +1,8 @@
 <template>
     <div class="home">
-        <div class="mask" v-show="start" @click="startGame"></div>
+        <div class="mask" v-show="start">
+            <div class="start-game" @click="startGame">开始游戏</div>
+        </div>
         <canvas class="webgl-container" id="div3d"></canvas>
     </div>
 </template>
@@ -128,11 +130,29 @@ export default {
 
     .mask {
         position: absolute;
+        display: flex;
+        justify-content: center;
+        align-items: center;
         top: 0;
         left: 0;
         width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.8);
+        height: 1000px;
+        background: url('~@/assets/start-bg.jpg') no-repeat 50% 50% / 100% 100%;
+
+        .start-game {
+                width: 700px;
+                height: 80px;
+                line-height: 80px;
+                text-align: ceneter;
+                font-size: 50px;
+                font-weight: 500;
+                text-shadow: -0.06em 0 red, 0.06em 0 cyan;
+                letter-spacing: 0.08em;
+                border: 5px solid red;
+                border-radius: 30px;
+                background: #000;
+                cursor: pointer;
+        }
     }
 }
 </style>
