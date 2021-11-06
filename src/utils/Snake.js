@@ -1,3 +1,5 @@
+import controlMusic from '@/utils/controlMusic';
+
 export default class Snake {
   constructor() {
     this.DIRECTION_VALUE = {
@@ -41,6 +43,7 @@ export default class Snake {
       ArrowRight: 'RIGHT',
     };
     window.addEventListener('keydown', (e) => {
+      controlMusic.playMove();
       if (!KEY_MAP[e.code] || !this.flushed) {
         return;
       }
@@ -115,6 +118,7 @@ export default class Snake {
       return newItem;
     });
     if (eated) {
+      controlMusic.playEated();
       const lastPoint = this.body.slice(-1)[0];
       const site = lastPoint.site - this.DIRECTION_VALUE[lastPoint.direction];
       const { direction } = lastPoint;
