@@ -3,6 +3,7 @@
         <div class="mask" v-show="start">
             <div class="start-game" @click="startGame">开始游戏</div>
         </div>
+        <div class="stop-btn" @click="stopGame"></div>
         <canvas class="webgl-container" id="div3d"></canvas>
     </div>
 </template>
@@ -10,7 +11,6 @@
 <script>
 import { ref } from 'vue';
 import {
-  runInterval,
   createProgram,
   createShader,
   getLineData,
@@ -26,6 +26,9 @@ export default {
   },
   setup() {
     const start = ref(true);
+    const raf = ref(null);
+    const fn = ref(null);
+    const hasStoped = ref(false);
 
     const runGame = () => {
       const webglInstance = Webgl.getInstance('div3d');
@@ -52,7 +55,6 @@ export default {
       const program = createProgram(gl, vertexShader, fragmentShader);
       const linePoints = getLineData();
       const points = getPointData();
-      console.log(points.length);
 
       gl.useProgram(program);
       // eslint-disable-next-line camelcase
@@ -103,7 +105,10 @@ export default {
         drawBackground(gl, linePoints);
         drawPoints(gl, points, result, foodSite);
       }
-      runInterval(render, 200);
+      raf.value = setInterval(() => {
+        render();
+      }, 200);
+      fn.value = render;
     };
 
     const startGame = () => {
@@ -112,7 +117,30 @@ export default {
 
       runGame();
     };
-    return { start, startGame };
+
+    const stopGame = () => {
+      if (!hasStoped.value) {
+        if (raf.value) {
+          controlMusic.stopBg();
+          clearInterval(raf.value);
+          raf.value = null;
+        }
+        hasStoped.value = true;
+      } else if (fn.value) {
+        controlMusic.playBg();
+        raf.value = setInterval(() => {
+          fn.value();
+        }, 200);
+        hasStoped.value = false;
+      }
+    };
+
+    window.addEventListener('keydown', (e) => {
+      if (e && e.code === 'Space') {
+        stopGame();
+      }
+    });
+    return { start, startGame, stopGame };
   },
 };
 </script>

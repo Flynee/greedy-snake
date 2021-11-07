@@ -1,6 +1,7 @@
 // 指定间隔时间执行函数
 export default function runInterval(fun, intervalTime) {
   let startTime = Date.now();
+  let raf = null;
 
   function loop() {
     const endTime = Date.now();
@@ -8,7 +9,9 @@ export default function runInterval(fun, intervalTime) {
       fun();
       startTime = Date.now();
     }
-    requestAnimationFrame(loop);
+    raf = requestAnimationFrame(loop);
+    return raf;
   }
-  loop();
+
+  return loop();
 }

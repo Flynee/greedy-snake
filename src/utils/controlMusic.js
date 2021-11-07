@@ -7,6 +7,14 @@ const controlMusic = {
       audio.play();
     }
   },
+  stopBg: () => {
+    const audio = document.getElementById('bg-music');
+    // 播放(继续播放)
+    if (audio) {
+      audio.muted = true;
+      audio.pause();
+    }
+  },
 
   playMove: () => {
     const audio = document.getElementById('move-music');
